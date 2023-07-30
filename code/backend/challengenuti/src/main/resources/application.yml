@@ -1,0 +1,22 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  profiles:
+    active: ${SPRING_PROFILE:dev}
+  jpa:
+    open-in-view: false
+
+server:
+  servlet:
+    context-path: /api/${API_VERSION:v1}
+
+management:
+  endpoint:
+    health:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+      base-path: /
