@@ -1,5 +1,6 @@
 package com.example.challengenuti.controllers.exceptions;
 
+import com.example.challengenuti.services.exceptions.DatabaseException;
 import com.example.challengenuti.services.exceptions.FaildConnectionException;
 import com.example.challengenuti.services.exceptions.RequestInvalidException;
 import com.example.challengenuti.services.exceptions.ResourceNotFoundException;
@@ -45,6 +46,18 @@ public class ResourceExceptionHandler {
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
         err.setError("Requisição inválida.");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> databaseException(DatabaseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError("Erro no banco de dados.");
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);

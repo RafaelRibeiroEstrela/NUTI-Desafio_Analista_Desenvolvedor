@@ -10,13 +10,3 @@ spring:
 server:
   servlet:
     context-path: /api/${API_VERSION:v1}
-
-management:
-  endpoint:
-    health:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: health
-      base-path: /

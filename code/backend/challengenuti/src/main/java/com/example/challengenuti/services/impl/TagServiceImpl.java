@@ -27,7 +27,7 @@ public class TagServiceImpl implements TagService {
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             LOGGER.info("Falha ao conectar na url {} ", e.getMessage());
             throw new FaildConnectionException("Falha ao conectar na url " + url);
         }

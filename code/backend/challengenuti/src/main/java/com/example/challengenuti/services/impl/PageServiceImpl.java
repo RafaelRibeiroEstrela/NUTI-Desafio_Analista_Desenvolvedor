@@ -7,6 +7,7 @@ import com.example.challengenuti.repositories.PageRepository;
 import com.example.challengenuti.requests.PageRequest;
 import com.example.challengenuti.services.PageService;
 import com.example.challengenuti.services.TagService;
+import com.example.challengenuti.services.exceptions.DatabaseException;
 import com.example.challengenuti.services.exceptions.RequestInvalidException;
 import com.example.challengenuti.services.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -81,6 +82,11 @@ public class PageServiceImpl implements PageService {
         }
         List<Page> pages = new ArrayList<>();
         pageRequest.getUrls().forEach(url -> {
+            Optional<Page> optional = pageRepository.findByUrl(url);
+            if (optional.isPresent()){
+                LOGGER.info("DatabaseException save");
+                throw new DatabaseException("Já existe uma análise da url " + url + " .");
+            }
             List<Tag> tags = tagService.verifyTag(url);
             Page page = new Page();
             page.setUrl(url);
