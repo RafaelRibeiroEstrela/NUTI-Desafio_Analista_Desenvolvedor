@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface TagService {
 
-    List<Tag> verifyTag(String url);
+    List<Tag> verifyTag1(String url);
+    List<Tag> verifyTag2(String url);
 }

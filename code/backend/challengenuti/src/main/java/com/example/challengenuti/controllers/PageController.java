@@ -47,10 +47,18 @@ public class PageController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PostMapping("/identificar_tags")
-    public ResponseEntity<List<PageDTO>> save(@RequestBody PageRequest pageRequest){
+    @PostMapping("/implementacao_1/identificar_tags")
+    public ResponseEntity<List<PageDTO>> save1(@RequestBody PageRequest pageRequest){
         LOGGER.info("INICIANDO save COM {}", pageRequest);
-        List<PageDTO> result = pageService.save(pageRequest);
+        List<PageDTO> result = pageService.save1(pageRequest);
+        LOGGER.info("FINALIZANDO save COM {}", result);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PostMapping("/implementacao_2/identificar_tags")
+    public ResponseEntity<List<PageDTO>> save2(@RequestBody PageRequest pageRequest){
+        LOGGER.info("INICIANDO save COM {}", pageRequest);
+        List<PageDTO> result = pageService.save2(pageRequest);
         LOGGER.info("FINALIZANDO save COM {}", result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

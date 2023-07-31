@@ -74,7 +74,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public List<PageDTO> save(PageRequest pageRequest) {
+    public List<PageDTO> save1(PageRequest pageRequest) {
         LOGGER.info("Identificando tags");
         if (pageRequest.getUrls() == null || pageRequest.getUrls().isEmpty()){
             LOGGER.info("RequestInvalidException save");
@@ -87,7 +87,34 @@ public class PageServiceImpl implements PageService {
                 LOGGER.info("Análise já existe no banco de dados. Limpando registros antigos.");
                 pageRepository.deleteById(optional.get().getId());
             }
-            List<Tag> tags = tagService.verifyTag(url);
+            List<Tag> tags = tagService.verifyTag1(url);
+            Page page = new Page();
+            page.setUrl(url);
+            page.getTags().addAll(tags);
+            tags.forEach(obj -> obj.setPage(page));
+            pages.add(page);
+        });
+        LOGGER.info("Salvando tags identificadas");
+        return pageRepository.saveAll(pages).stream()
+                .map(obj -> new PageDTO(obj))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PageDTO> save2(PageRequest pageRequest) {
+        LOGGER.info("Identificando tags");
+        if (pageRequest.getUrls() == null || pageRequest.getUrls().isEmpty()){
+            LOGGER.info("RequestInvalidException save");
+            throw new RequestInvalidException("A lista de urls deve possui ao menos um elemento.");
+        }
+        List<Page> pages = new ArrayList<>();
+        pageRequest.getUrls().forEach(url -> {
+            Optional<Page> optional = pageRepository.findByUrl(url);
+            if (optional.isPresent()){
+                LOGGER.info("Análise já existe no banco de dados. Limpando registros antigos.");
+                pageRepository.deleteById(optional.get().getId());
+            }
+            List<Tag> tags = tagService.verifyTag2(url);
             Page page = new Page();
             page.setUrl(url);
             page.getTags().addAll(tags);
