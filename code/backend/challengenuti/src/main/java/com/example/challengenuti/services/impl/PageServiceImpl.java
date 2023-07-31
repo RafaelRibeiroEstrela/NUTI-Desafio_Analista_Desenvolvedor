@@ -84,8 +84,8 @@ public class PageServiceImpl implements PageService {
         pageRequest.getUrls().forEach(url -> {
             Optional<Page> optional = pageRepository.findByUrl(url);
             if (optional.isPresent()){
-                LOGGER.info("DatabaseException save");
-                throw new DatabaseException("Já existe uma análise da url " + url + " .");
+                LOGGER.info("Análise já existe no banco de dados. Limpando registros antigos.");
+                pageRepository.deleteById(optional.get().getId());
             }
             List<Tag> tags = tagService.verifyTag(url);
             Page page = new Page();
