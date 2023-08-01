@@ -27,7 +27,7 @@ public class PageController {
     }
 
     @PostMapping("/identificar_tags")
-    public ResponseEntity<List<PageDTO>> save1(@RequestBody PageRequest pageRequest){
+    public ResponseEntity<List<PageDTO>> save(@RequestBody PageRequest pageRequest){
         LOGGER.info("INICIANDO save COM {}", pageRequest);
         List<PageDTO> result = pageService.save(pageRequest);
         LOGGER.info("FINALIZANDO save COM {}", result);
