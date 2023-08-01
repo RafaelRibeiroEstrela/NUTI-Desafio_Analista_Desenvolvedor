@@ -8,6 +8,7 @@ import com.example.challengenuti.requests.PageRequest;
 import com.example.challengenuti.services.PageService;
 import com.example.challengenuti.services.TagService;
 import com.example.challengenuti.services.exceptions.RequestInvalidException;
+import com.example.challengenuti.services.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,15 @@ public class PageServiceImpl implements PageService {
         return pageRepository.saveAll(pages).stream()
                 .map(obj -> new PageDTO(obj))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PageDTO findByUrl(String url) {
+        Optional<Page> optional = pageRepository.findByUrl(url);
+        if (optional.isPresent()){
+            return new PageDTO(optional.get());
+        }
+        throw new ResourceNotFoundException("Não foi encontrado uma análise com a URL informada.");
     }
 
 }

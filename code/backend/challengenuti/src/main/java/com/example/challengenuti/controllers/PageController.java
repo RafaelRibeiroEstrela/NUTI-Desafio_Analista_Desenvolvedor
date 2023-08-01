@@ -7,10 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +28,14 @@ public class PageController {
         LOGGER.info("INICIANDO save COM {}", pageRequest);
         List<PageDTO> result = pageService.save(pageRequest);
         LOGGER.info("FINALIZANDO save COM {}", result);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/buscar_tags_por_url")
+    public ResponseEntity<PageDTO> findByUrl(@RequestParam String url){
+        LOGGER.info("INICIANDO findByUrl COM url={}", url);
+        PageDTO result = pageService.findByUrl(url);
+        LOGGER.info("FINALIZANDO findByUrl COM {}", result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

@@ -1,9 +1,6 @@
 spring:
-  h2:
-    console:
-      enabled: true
   profiles:
-    active: ${SPRING_PROFILE:dev}
+    active: ${SPRING_PROFILE:test}
   jpa:
     open-in-view: false
 

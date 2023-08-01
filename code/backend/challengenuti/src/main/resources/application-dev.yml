@@ -1,16 +1,13 @@
 
 spring:
   datasource:
-    url: jdbc:h2:mem:test
-    driver-class-name: org.h2.Driver
-    username: user
-    password:
+    url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: nuti
+    password: nuti
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.Oracle12cDialect
     show-sql: true
-  h2:
-    console:
-      enabled: true
-
-
+    hibernate:
+      ddl-auto: none
 

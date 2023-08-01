@@ -11,8 +11,6 @@ public class Page {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true)
     private String url;
     @OneToMany(mappedBy = "page", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Tag> tags = new ArrayList<>();

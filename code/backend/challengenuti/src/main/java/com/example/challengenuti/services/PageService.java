@@ -8,4 +8,5 @@ import java.util.List;
 public interface PageService {
 
     List<PageDTO> save(PageRequest pageRequest);
+    PageDTO findByUrl(String url);
 }
