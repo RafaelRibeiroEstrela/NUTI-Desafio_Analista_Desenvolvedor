@@ -7,9 +7,5 @@ import java.util.List;
 
 public interface PageService {
 
-    PageDTO findById(Long id);
-    PageDTO findByUrl(String url);
-    List<PageDTO> findAll();
-    List<PageDTO> save1(PageRequest pageRequest);
-    List<PageDTO> save2(PageRequest pageRequest);
+    List<PageDTO> save(PageRequest pageRequest);
 }

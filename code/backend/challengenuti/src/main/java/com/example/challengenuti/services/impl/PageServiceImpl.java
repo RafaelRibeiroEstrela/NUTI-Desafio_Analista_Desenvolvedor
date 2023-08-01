@@ -7,13 +7,10 @@ import com.example.challengenuti.repositories.PageRepository;
 import com.example.challengenuti.requests.PageRequest;
 import com.example.challengenuti.services.PageService;
 import com.example.challengenuti.services.TagService;
-import com.example.challengenuti.services.exceptions.DatabaseException;
 import com.example.challengenuti.services.exceptions.RequestInvalidException;
-import com.example.challengenuti.services.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,48 +30,8 @@ public class PageServiceImpl implements PageService {
         this.tagService = tagService;
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public PageDTO findById(Long id) {
-        LOGGER.info("Buscando por id");
-        Optional<Page> optional = pageRepository.findById(id);
-        if (optional.isPresent()){
-            Page page = optional.get();
-            return new PageDTO(page);
-        }
-        LOGGER.info("ResourceNotFoundException findById");
-        throw new ResourceNotFoundException("Nenhuma página foi encontrada.");
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public PageDTO findByUrl(String url) {
-        LOGGER.info("Buscando por url");
-        Optional<Page> optional = pageRepository.findByUrl(url);
-        if (optional.isPresent()){
-            Page page = optional.get();
-            return new PageDTO(page);
-        }
-        LOGGER.info("ResourceNotFoundException findByUrl");
-        throw new ResourceNotFoundException("Nenhuma página foi encontrada.");
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<PageDTO> findAll() {
-        LOGGER.info("Buscando todos");
-        List<Page> pages = pageRepository.findAll();
-        if (pages.isEmpty()){
-            LOGGER.info("ResourceNotFoundException findAll");
-            throw new ResourceNotFoundException("Nenhuma página foi encontrada.");
-        }
-        return pages.stream()
-                .map(obj -> new PageDTO(obj))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<PageDTO> save1(PageRequest pageRequest) {
+    public List<PageDTO> save(PageRequest pageRequest) {
         LOGGER.info("Identificando tags");
         if (pageRequest.getUrls() == null || pageRequest.getUrls().isEmpty()){
             LOGGER.info("RequestInvalidException save");
@@ -87,34 +44,7 @@ public class PageServiceImpl implements PageService {
                 LOGGER.info("Análise já existe no banco de dados. Limpando registros antigos.");
                 pageRepository.deleteById(optional.get().getId());
             }
-            List<Tag> tags = tagService.verifyTag1(url);
-            Page page = new Page();
-            page.setUrl(url);
-            page.getTags().addAll(tags);
-            tags.forEach(obj -> obj.setPage(page));
-            pages.add(page);
-        });
-        LOGGER.info("Salvando tags identificadas");
-        return pageRepository.saveAll(pages).stream()
-                .map(obj -> new PageDTO(obj))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<PageDTO> save2(PageRequest pageRequest) {
-        LOGGER.info("Identificando tags");
-        if (pageRequest.getUrls() == null || pageRequest.getUrls().isEmpty()){
-            LOGGER.info("RequestInvalidException save");
-            throw new RequestInvalidException("A lista de urls deve possui ao menos um elemento.");
-        }
-        List<Page> pages = new ArrayList<>();
-        pageRequest.getUrls().forEach(url -> {
-            Optional<Page> optional = pageRepository.findByUrl(url);
-            if (optional.isPresent()){
-                LOGGER.info("Análise já existe no banco de dados. Limpando registros antigos.");
-                pageRepository.deleteById(optional.get().getId());
-            }
-            List<Tag> tags = tagService.verifyTag2(url);
+            List<Tag> tags = tagService.verifyTag(url);
             Page page = new Page();
             page.setUrl(url);
             page.getTags().addAll(tags);
