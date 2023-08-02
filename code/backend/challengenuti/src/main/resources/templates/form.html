@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulário</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Inclua o CSS do Bootstrap via CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-4">
+    <h1 class="mb-4">Identificar Tags</h1>
+    <form id="urlForm" action="http://localhost:8080/api/v1/desafio/identificar_tags" method="get">
+        <div class="form-group">
+            <label for="urls">Insira as URLs (separadas por vírgula):</label>
+            <input type="text" class="form-control" id="urls" name="urls">
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('urlForm').addEventListener('submit', function(event) {
+        var urls = document.getElementById('urls').value;
+        if (urls === '') {
+            event.preventDefault();
+            alert('Por favor, insira ao menos uma URL');
+        }
+    });
+</script>
+
+</body>
+</html>
