@@ -9,6 +9,7 @@ import com.example.challengenuti.services.PageService;
 import com.example.challengenuti.services.TagService;
 import com.example.challengenuti.services.exceptions.RequestInvalidException;
 import com.example.challengenuti.services.exceptions.ResourceNotFoundException;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,7 @@ public class PageServiceImpl implements PageService {
         }
         List<Page> pages = new ArrayList<>();
         pageRequest.getUrls().forEach(url -> {
+            verifyUlr(url);
             Optional<Page> optional = pageRepository.findByUrl(url);
             if (optional.isPresent()){
                 LOGGER.info("Análise já existe no banco de dados. Limpando registros antigos.");
@@ -60,6 +62,7 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public PageDTO findByUrl(String url) {
+        verifyUlr(url);
         Optional<Page> optional = pageRepository.findByUrl(url);
         if (optional.isPresent()){
             return new PageDTO(optional.get());
@@ -67,4 +70,9 @@ public class PageServiceImpl implements PageService {
         throw new ResourceNotFoundException("Não foi encontrado uma análise com a URL informada.");
     }
 
+    private void verifyUlr(String url){
+        if (!new UrlValidator().isValid(url)){
+            throw new IllegalArgumentException("A url " + url + " é invalida.");
+        }
+    }
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulário</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-4">
+    <h1 class="mb-4">Buscar Tags de uma URL</h1>
+    <form id="urlForm" action="http://localhost:8080/api/v1/desafio/buscar_tags_por_url" method="get">
+        <div class="form-group">
+            <label for="urls">Insira uma URL:</label>
+            <input type="text" class="form-control" id="urls" name="url">
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('urlForm').addEventListener('submit', function(event) {
+        var urls = document.getElementById('urls').value;
+        if (urls === '') {
+            event.preventDefault();
+            alert('Por favor, insira uma URL');
+        }
+    });
+</script>
+
+</body>
+</html>

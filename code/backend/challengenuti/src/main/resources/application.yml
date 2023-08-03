@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${SPRING_PROFILE:test}
+    active: test
   jpa:
     open-in-view: false
 

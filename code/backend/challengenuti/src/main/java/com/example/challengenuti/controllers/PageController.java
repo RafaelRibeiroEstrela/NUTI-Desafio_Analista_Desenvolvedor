@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -25,7 +26,12 @@ public class PageController {
 
     @GetMapping("/desafio/formulario")
     public String form(){
-        return "form";
+        return "formulario";
+    }
+
+    @GetMapping("/desafio/formulario_busca")
+    public String formBusca(){
+        return "formulario_busca";
     }
 
     @GetMapping("/desafio/identificar_tags")
@@ -34,7 +40,21 @@ public class PageController {
         pageRequest.getUrls().addAll(urls);
         List<PageDTO> result = pageService.save(pageRequest);
         model.addAttribute("pages", result);
-        return "pages";
+        return "indetificar_tags";
+    }
+
+    @GetMapping("/desafio/buscar_tags_por_url")
+    public String save(@RequestParam String url, Model model){
+        PageDTO result = pageService.findByUrl(url);
+        List<PageDTO> list = new ArrayList<>();
+        list.add(result);
+        model.addAttribute("pages", list);
+        return "buscar_tags";
+    }
+
+    @GetMapping("/desafio/home")
+    public String home(){
+        return "home";
     }
 
 }

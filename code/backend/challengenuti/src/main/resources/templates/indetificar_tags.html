@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tags das páginas</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-4">
+    <h1 class="mb-4">Tags das páginas</h1>
+    <div th:each="page : ${pages}" class="mb-4">
+        <h2 th:text="${page.url}" class="mb-3"></h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Tag</th>
+                <th>Contagem</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tag : ${page.tags}">
+                <td th:text="${tag.name}"></td>
+                <td th:text="${tag.count}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
