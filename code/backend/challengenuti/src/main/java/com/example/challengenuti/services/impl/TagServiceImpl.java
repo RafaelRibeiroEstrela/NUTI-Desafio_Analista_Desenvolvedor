@@ -21,7 +21,7 @@ public class TagServiceImpl implements TagService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TagServiceImpl.class);
 
     @Override
-    public List<Tag> verifyTag(String url) {
+    public List<Tag> analisaTags(String url) {
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();

@@ -38,14 +38,14 @@ public class PageController {
     public String save(@RequestParam List<String> urls, Model model){
         PageRequest pageRequest = new PageRequest();
         pageRequest.getUrls().addAll(urls);
-        List<PageDTO> result = pageService.save(pageRequest);
+        List<PageDTO> result = pageService.indentificarTags(pageRequest);
         model.addAttribute("pages", result);
         return "indetificar_tags";
     }
 
     @GetMapping("/desafio/buscar_tags_por_url")
     public String save(@RequestParam String url, Model model){
-        PageDTO result = pageService.findByUrl(url);
+        PageDTO result = pageService.buscarTagsPorUrl(url);
         List<PageDTO> list = new ArrayList<>();
         list.add(result);
         model.addAttribute("pages", list);

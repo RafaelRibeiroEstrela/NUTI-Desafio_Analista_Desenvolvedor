@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface PageService {
 
-    List<PageDTO> save(PageRequest pageRequest);
-    PageDTO findByUrl(String url);
+    List<PageDTO> indentificarTags(PageRequest pageRequest);
+    PageDTO buscarTagsPorUrl(String url);
 }

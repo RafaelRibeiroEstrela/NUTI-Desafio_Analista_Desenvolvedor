@@ -33,7 +33,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public List<PageDTO> save(PageRequest pageRequest) {
+    public List<PageDTO> indentificarTags(PageRequest pageRequest) {
         LOGGER.info("Identificando tags");
         if (pageRequest.getUrls() == null || pageRequest.getUrls().isEmpty()){
             LOGGER.info("RequestInvalidException save");
@@ -47,7 +47,7 @@ public class PageServiceImpl implements PageService {
                 LOGGER.info("Análise já existe no banco de dados. Limpando registros antigos.");
                 pageRepository.deleteById(optional.get().getId());
             }
-            List<Tag> tags = tagService.verifyTag(url);
+            List<Tag> tags = tagService.analisaTags(url);
             Page page = new Page();
             page.setUrl(url);
             page.getTags().addAll(tags);
@@ -61,7 +61,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public PageDTO findByUrl(String url) {
+    public PageDTO buscarTagsPorUrl(String url) {
         verifyUlr(url);
         Optional<Page> optional = pageRepository.findByUrl(url);
         if (optional.isPresent()){
